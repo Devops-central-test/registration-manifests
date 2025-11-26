@@ -18,10 +18,11 @@ spec:
     spec:
       containers:
       - name: regapp
-        image: devopscentraltest/testproject:0
+        image: devopscentraltest/testproject:placeholder   # 🔥 Change here
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+
   strategy:
     type: RollingUpdate
     rollingUpdate:

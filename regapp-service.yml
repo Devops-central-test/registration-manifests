@@ -2,14 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: regapp-service
-  labels:
-    app: regapp 
+  namespace: default
 spec:
+  type: ClusterIP
   selector:
-    app: regapp 
-
+    app: regapp
   ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
-
-  type: LoadBalancer

@@ -21,22 +21,24 @@ spec:
         ports:
         - containerPort: 8080
 
-        # ---- HEALTH CHECKS FOR ARGOCD ----
+        # ---- HEALTH CHECKS (FIXED PATH) ----
         readinessProbe:
           httpGet:
-            path: /
+            path: /registration-app/
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
+          failureThreshold: 3
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /registration-app/
             port: 8080
           initialDelaySeconds: 10
           periodSeconds: 10
+          failureThreshold: 3
 
-        # ---- OPTIONAL (GOOD PRACTICE) ----
+        # ---- RESOURCE LIMITS ----
         resources:
           requests:
             cpu: "100m"

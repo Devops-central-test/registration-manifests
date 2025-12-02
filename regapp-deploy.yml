@@ -1,16 +1,15 @@
-apiVersion: apps/v1 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: regapp-deployment
-  labels: 
-     app: regapp
-
+  namespace: default
+  labels:
+    app: regapp
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: regapp
-
   template:
     metadata:
       labels:
@@ -18,13 +17,30 @@ spec:
     spec:
       containers:
       - name: regapp
-        image: devopscentraltest/registration-app:26
-        imagePullPolicy: Always
+        image: devopscentraltest/registration-app:latest
         ports:
         - containerPort: 8080
 
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+        # ---- HEALTH CHECKS FOR ARGOCD ----
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        # ---- OPTIONAL (GOOD PRACTICE) ----
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"

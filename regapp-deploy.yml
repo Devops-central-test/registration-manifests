@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: regapp
-        image: devopscentraltest/registration-app:36
+        image: devopscentraltest/registration-app:37
         ports:
         - containerPort: 8080
 

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: regapp
-        image: devopscentraltest/testproject:61
+        image: devopscentraltest/registration-app:26
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

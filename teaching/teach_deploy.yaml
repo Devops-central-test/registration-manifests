@@ -36,18 +36,18 @@ spec:
         # -------- READINESS PROBE --------
         readinessProbe:
           httpGet:
-            path: /admin-devops-app/           # <-- WAR context path
+            path: /        # <-- WAR context path
             port: 8080
-          initialDelaySeconds: 10
+          initialDelaySeconds: 20
           periodSeconds: 5
-          failureThreshold: 3
+          failureThreshold: 5
 
         # -------- LIVENESS PROBE --------
         livenessProbe:
           httpGet:
-            path: /admin-devops-app/           # <-- WAR context path
+            path: /      # <-- WAR context path
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 10
           failureThreshold: 3
 

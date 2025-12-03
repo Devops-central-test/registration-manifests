@@ -42,14 +42,15 @@ spec:
           periodSeconds: 5
           failureThreshold: 5
 
-        # -------- LIVENESS PROBE --------
-        livenessProbe:
-          httpGet:
-            path: /      # <-- WAR context path
-            port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          failureThreshold: 3
+    # -------- LIVENESS PROBE --------
+        # Temporarily disabled while we debug CrashLoopBackOff
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 8080
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   failureThreshold: 3
 
         # -------- RESOURCE LIMITS --------
         resources:

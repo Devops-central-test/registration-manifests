@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: teach
-        image: devopscentraltest/new_teching_image:latest   # <-- Jenkins CD will update this tag
+        image: devopscentraltest/new_teching_image:21
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

@@ -33,15 +33,15 @@ spec:
         - name: DB_PASS
           value: "StrongPassword@123"
 
+      # REMOVE PROBES FOR NOW
         # -------- READINESS PROBE --------
-        readinessProbe:
-          httpGet:
-            path: /        # <-- WAR context path
-            port: 8080
-          initialDelaySeconds: 20
-          periodSeconds: 5
-          failureThreshold: 5
-
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 8080
+        #   initialDelaySeconds: 20
+        #   periodSeconds: 5
+        #   failureThreshold: 5
     # -------- LIVENESS PROBE --------
         # Temporarily disabled while we debug CrashLoopBackOff
         # livenessProbe:

@@ -25,7 +25,7 @@ spec:
         # -------- ENV VARS FOR DB --------
         env:
         - name: DB_HOST
-          value: "YOUR-MYSQL-IP"
+          value: "52.204.45.34"
         - name: DB_NAME
           value: "admin"
         - name: DB_USER

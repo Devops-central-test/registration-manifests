@@ -1,23 +1,61 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: teaching-app
-  namespace: argocd
+  name: teach-deployment
+  namespace: default
+  labels:
+    app: teach
 spec:
-  project: default
+  replicas: 2
+  selector:
+    matchLabels:
+      app: teach
+  template:
+    metadata:
+      labels:
+        app: teach
+    spec:
+      containers:
+      - name: teach
+        image: devopscentraltest/new_teching_image:latest   # <-- Jenkins CD will update this tag
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
 
-  source:
-    repoURL: 'https://github.com/Devops-central-test/registration-manifests.git'
-    targetRevision: main
-    path: teaching        # <-- FOLDER containing teach_deploy.yaml
+        # -------- ENV VARS FOR DB --------
+        env:
+        - name: DB_HOST
+          value: "YOUR-MYSQL-IP"
+        - name: DB_NAME
+          value: "admin"
+        - name: DB_USER
+          value: "adminuser"
+        - name: DB_PASS
+          value: "StrongPassword@123"
 
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: default
+        # -------- READINESS PROBE --------
+        readinessProbe:
+          httpGet:
+            path: /admin-devops-app/           # <-- WAR context path
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 3
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+        # -------- LIVENESS PROBE --------
+        livenessProbe:
+          httpGet:
+            path: /admin-devops-app/           # <-- WAR context path
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+
+        # -------- RESOURCE LIMITS --------
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"

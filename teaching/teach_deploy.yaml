@@ -17,28 +17,42 @@ spec:
     spec:
       containers:
       - name: teach
-        image: devopscentraltest/registration-app:41
+        image: devopscentraltest/new_teching_image:41   # Update tag in ArgoCD or Jenkins
+        imagePullPolicy: Always
+
         ports:
         - containerPort: 8080
 
-        # ---- HEALTH CHECKS (FIXED PATH) ----
+        # ---------- ENV VARS (OPTIONAL FOR DB) ----------
+        env:
+        - name: DB_HOST
+          value: "52.xx.xx.xx"
+        - name: DB_USER
+          value: "adminuser"
+        - name: DB_PASS
+          value: "StrongPassword@123"
+        - name: DB_NAME
+          value: "admin"
+
+        # ---------- READINESS PROBE ----------
         readinessProbe:
           httpGet:
-            path: /registration-app/
+            path: /admin-devops-app/    # Your real context path
             port: 8080
-          initialDelaySeconds: 5
+          initialDelaySeconds: 10
           periodSeconds: 5
           failureThreshold: 3
 
+        # ---------- LIVENESS PROBE ----------
         livenessProbe:
           httpGet:
-            path: /registration-app/
+            path: /admin-devops-app/
             port: 8080
-          initialDelaySeconds: 10
+          initialDelaySeconds: 20
           periodSeconds: 10
           failureThreshold: 3
 
-        # ---- RESOURCE LIMITS ----
+        # ---------- RESOURCE REQUESTS/LIMITS ----------
         resources:
           requests:
             cpu: "100m"

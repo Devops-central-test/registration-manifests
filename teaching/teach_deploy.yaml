@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: teach
-        image: devopscentraltest/new_teching_image:43
+        image: devopscentraltest/new_teching_image:44
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

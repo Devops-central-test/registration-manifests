@@ -17,12 +17,12 @@ spec:
     spec:
       containers:
       - name: teach
-        image: devopscentraltest/new_teching_image:47
+        image: devopscentraltest/new_teching_image:47   # auto updated by Jenkins CD
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
 
-        # -------- ENV VARS FOR DB --------
+        # ------------ DATABASE ENV ------------
         env:
         - name: DB_HOST
           value: "52.204.45.34"
@@ -33,26 +33,24 @@ spec:
         - name: DB_PASS
           value: "StrongPassword@123"
 
-      # REMOVE PROBES FOR NOW
-        # -------- READINESS PROBE --------
-        # readinessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: 8080
-        #   initialDelaySeconds: 20
-        #   periodSeconds: 5
-        #   failureThreshold: 5
-    # -------- LIVENESS PROBE --------
-        # Temporarily disabled while we debug CrashLoopBackOff
-        # livenessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: 8080
-        #   initialDelaySeconds: 60
-        #   periodSeconds: 10
-        #   failureThreshold: 3
+        # ------------ HEALTH CHECKS ------------
+        readinessProbe:
+          httpGet:
+            path: /index.jsp        # ROOT.war path
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          failureThreshold: 5
 
-        # -------- RESOURCE LIMITS --------
+        livenessProbe:
+          httpGet:
+            path: /index.jsp        # ROOT.war path
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          failureThreshold: 3
+
+        # ------------ RESOURCE LIMITS ------------
         resources:
           requests:
             cpu: "100m"

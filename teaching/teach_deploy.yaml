@@ -33,22 +33,22 @@ spec:
         - name: DB_PASS
           value: "StrongPassword@123"
 
-        # ------------ HEALTH CHECKS ------------
-        readinessProbe:
-          httpGet:
-            path: /index.jsp        # ROOT.war path
-            port: 8080
-          initialDelaySeconds: 20
-          periodSeconds: 5
-          failureThreshold: 5
+        # ------------ HEALTH CHECKS (DISABLED) ------------
+        # readinessProbe:
+        #   httpGet:
+        #     path: /index.jsp
+        #     port: 8080
+        #   initialDelaySeconds: 20
+        #   periodSeconds: 5
+        #   failureThreshold: 5
 
-        livenessProbe:
-          httpGet:
-            path: /index.jsp        # ROOT.war path
-            port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /index.jsp
+        #     port: 8080
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   failureThreshold: 3
 
         # ------------ RESOURCE LIMITS ------------
         resources:

@@ -12,4 +12,4 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 32387   # or remove and let K8s assign
+      nodePort: 32387  

@@ -19,6 +19,7 @@ spec:
       - name: teach
         image: devopscentraltest/new_teching_image:14
         imagePullPolicy: Always
+
         ports:
         - containerPort: 8080
 
@@ -33,7 +34,15 @@ spec:
         - name: DB_PASS
           value: "StrongPassword@123"
 
-    
+        # ------------ FORCE IPV4 (IMPORTANT) ------------
+        - name: JAVA_OPTS
+          value: "-Djava.net.preferIPv4Stack=true"
+
+        # ------------ TOMCAT CONFIGMAP MOUNT ------------
+        volumeMounts:
+        - name: tomcat-config
+          mountPath: /usr/local/tomcat/conf/server.xml
+          subPath: server.xml
 
         # ------------ RESOURCE LIMITS ------------
         resources:
@@ -43,3 +52,9 @@ spec:
           limits:
             cpu: "500m"
             memory: "512Mi"
+
+      # ------------ CONFIGMAP VOLUME ------------
+      volumes:
+      - name: tomcat-config
+        configMap:
+          name: tomcat-server-xml

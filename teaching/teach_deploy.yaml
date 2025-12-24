@@ -53,8 +53,4 @@ spec:
             cpu: "500m"
             memory: "512Mi"
 
-      # ------------ CONFIGMAP VOLUME ------------
-      volumes:
-      - name: tomcat-config
-        configMap:
-          name: tomcat-server-xml
+    

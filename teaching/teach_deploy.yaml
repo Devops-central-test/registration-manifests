@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: teach
-          image: 797923187526.dkr.ecr.us-east-1.amazonaws.com/teaching-app:15
+          image: 797923187526.dkr.ecr.us-east-1.amazonaws.com/teaching-app:16
           imagePullPolicy: Always
 
           ports:

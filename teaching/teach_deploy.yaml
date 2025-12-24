@@ -16,42 +16,43 @@ spec:
         app: teach
     spec:
       containers:
-      - name: teach
-        image: 797923187526.dkr.ecr.us-east-1.amazonaws.com/teaching-app:15
-        imagePullPolicy: Always
+        - name: teach
+          image: 797923187526.dkr.ecr.us-east-1.amazonaws.com/teaching-app:15
+          imagePullPolicy: Always
 
-        ports:
-        - containerPort: 8080
+          ports:
+            - containerPort: 8080
 
-        # ------------ DATABASE ENV ------------
-        env:
-        - name: DB_HOST
-          value: "52.204.45.34"
-        - name: DB_NAME
-          value: "admin"
-        - name: DB_USER
-          value: "adminuser"
-        - name: DB_PASS
-          value: "StrongPassword@123"
+          # ------------ DATABASE & JVM ENV ------------
+          env:
+            - name: DB_HOST
+              value: "52.204.45.34"
+            - name: DB_NAME
+              value: "admin"
+            - name: DB_USER
+              value: "adminuser"
+            - name: DB_PASS
+              value: "StrongPassword@123"
+            - name: JAVA_OPTS
+              value: "-Djava.net.preferIPv4Stack=true"
 
-        # ------------ FORCE IPV4 (IMPORTANT) ------------
-        - name: JAVA_OPTS
-          value: "-Djava.net.preferIPv4Stack=true"
+          # ------------ TOMCAT CONFIGMAP MOUNT ------------
+          volumeMounts:
+            - name: tomcat-config
+              mountPath: /usr/local/tomcat/conf/server.xml
+              subPath: server.xml
 
-        # ------------ TOMCAT CONFIGMAP MOUNT ------------
-        volumeMounts:
+          # ------------ RESOURCE LIMITS ------------
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+      # ------------ CONFIGMAP VOLUME ------------
+      volumes:
         - name: tomcat-config
-          mountPath: /usr/local/tomcat/conf/server.xml
-          subPath: server.xml
-
-        # ------------ RESOURCE LIMITS ------------
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
-         volumes:
-          - name: tomcat-config
-    
+          configMap:
+            name: tomcat-server-xml
